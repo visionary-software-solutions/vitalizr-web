@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: vitalizr.web
+---
+testFramework: junit
+sourceLanguage: java

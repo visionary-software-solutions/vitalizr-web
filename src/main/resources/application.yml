@@ -1,0 +1,5 @@
+micronaut:
+  application:
+    name: vitalizr-web
+    jackson:
+      indentOutput: true
