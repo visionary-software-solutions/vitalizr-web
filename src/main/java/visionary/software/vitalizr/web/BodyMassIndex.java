@@ -7,48 +7,44 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
-public final class Weight implements Vital {
+public final class BodyMassIndex implements Vital {
     public final Instant time;
     public final double quantity;
-    public final String unit;
     public final String lifeform;
 
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final Weight weight = (Weight) o;
+        final BodyMassIndex weight = (BodyMassIndex) o;
         return Double.compare(weight.quantity, quantity) == 0 &&
                 Objects.equals(time, weight.time) &&
-                Objects.equals(unit, weight.unit) &&
                 Objects.equals(lifeform, weight.lifeform);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(time, quantity, unit, lifeform);
+        return Objects.hash(time, quantity, lifeform);
     }
 
     @JsonCreator
-    public Weight(@JsonProperty("time") final Instant time,
-                  @JsonProperty("quantity") final Number quantity,
-                  @JsonProperty("unit") final String unit,
-                  @JsonProperty("owner") final String lifeform) {
+    public BodyMassIndex(@JsonProperty("time") final Instant time,
+                         @JsonProperty("quantity") final Number quantity,
+                         @JsonProperty("owner") final String lifeform) {
         this.time = time;
         this.quantity = quantity.doubleValue();
-        this.unit = unit;
         this.lifeform = lifeform;
     }
 
-    static Weight createCannedNick() {
+    static BodyMassIndex createCannedNick() {
         final Instant time = Instant.ofEpochSecond(1580485835);
         final Number quantity = 234.6;
         final String lifeform = UUID.fromString("7ab35698-21f9-463e-8e74-bd3d56109336").toString();
-        return new Weight(time, quantity, "lb", lifeform);
+        return new BodyMassIndex(time, quantity, lifeform);
     }
 
-    static Weight fromString(final String s, final String lifeform) {
+    static BodyMassIndex fromString(final String s, final String lifeform) {
         final String[] parts = s.split("\u2049");
-        return new Weight(Instant.ofEpochMilli(Long.parseLong(parts[0])), Double.parseDouble(parts[1]), parts[2], lifeform);
+        return new BodyMassIndex(Instant.ofEpochMilli(Long.parseLong(parts[0])), Double.parseDouble(parts[1]), lifeform);
     }
 }
