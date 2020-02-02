@@ -46,4 +46,9 @@ public final class Weight {
         final String lifeform = UUID.fromString("7ab35698-21f9-463e-8e74-bd3d56109336").toString();
         return new Weight(time, quantity, "lb", lifeform);
     }
+
+    static Weight fromString(final String s, final String lifeform) {
+        final String[] parts = s.split("\u2049");
+        return new Weight(Instant.ofEpochMilli(Long.parseLong(parts[0])), Double.parseDouble(parts[1]), parts[2], lifeform);
+    }
 }
