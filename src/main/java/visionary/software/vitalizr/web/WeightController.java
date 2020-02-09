@@ -10,6 +10,6 @@ public class WeightController {
     @Get
     public List<Weight> list() {
         final String id = Weight.createCannedNick().lifeform;
-        return VitalizrClient.LIST_WEIGHTS.fetchVitals(id);
+        return VitalizrClient.LIST_WEIGHT.getVital(id);
     }
 }

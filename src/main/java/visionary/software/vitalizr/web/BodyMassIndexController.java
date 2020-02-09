@@ -10,6 +10,6 @@ public class BodyMassIndexController {
     @Get
     public List<BodyMassIndex> list() {
         final String id = BodyMassIndex.createCannedNick().lifeform;
-        return VitalizrClient.LIST_BMIS.fetchVitals(id);
+        return VitalizrClient.LIST_BMI.getVital(id);
     }
 }
