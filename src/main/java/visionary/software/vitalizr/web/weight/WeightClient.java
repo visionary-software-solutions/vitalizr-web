@@ -1,4 +1,4 @@
-package visionary.software.vitalizr.web;
+package visionary.software.vitalizr.web.weight;
 
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.client.annotation.Client;

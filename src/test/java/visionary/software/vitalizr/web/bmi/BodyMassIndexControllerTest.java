@@ -1,8 +1,10 @@
-package visionary.software.vitalizr.web;
+package visionary.software.vitalizr.web.bmi;
 
-import io.micronaut.runtime.server.EmbeddedServer;
+import io.micronaut.context.annotation.Replaces;
 import io.micronaut.test.annotation.MicronautTest;
+import io.micronaut.test.annotation.MockBean;
 import org.junit.jupiter.api.Test;
+import visionary.software.vitalizr.web.VitalService;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @MicronautTest
 class BodyMassIndexControllerTest {
     @Inject
-    EmbeddedServer server;
+    BMIService service;
 
     @Inject
     BMIClient client;
@@ -24,5 +26,13 @@ class BodyMassIndexControllerTest {
         final List<BodyMassIndex> expected = new ArrayList<>();
         expected.add(BodyMassIndex.createCannedNick());
         assertEquals(expected, response);
+    }
+
+    @MockBean(VitalService.class)
+    @Replaces(BMIService.class)
+    VitalService<BodyMassIndex> service() {
+        final List<BodyMassIndex> result = new ArrayList<>();
+        result.add(BodyMassIndex.createCannedNick());
+        return id -> result;
     }
 }

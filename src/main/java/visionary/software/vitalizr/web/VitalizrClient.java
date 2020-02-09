@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.logging.Logger;
 
-enum VitalizrClient {
+public enum VitalizrClient {
     ADD_WEIGHT(13338),
     LIST_WEIGHT(13339),
     ADD_BMI(13340),
@@ -35,11 +35,19 @@ enum VitalizrClient {
         this.port = port;
     }
 
+    public String forId(final String id) {
+        return doRequestReply(this.port, this.createRequest(new ArrayDeque<>(){{add(id);}}));
+    }
+
     public static void main(final String[] args) {
         final Deque<String> deque = new ArrayDeque<>(Arrays.asList(args == null ? new String[0] : args));
         final String toDispatch = String.format("%s_%s", deque.pop(), deque.pop());
         final VitalizrClient client = VitalizrClient.valueOf(toDispatch.toUpperCase());
         client.execute(deque);
+    }
+
+    private void execute(final Deque<String> deque) {
+        doRequestReply(port, createRequest(deque));
     }
 
     private String createRequest(final Deque<String> deque) {
@@ -69,10 +77,6 @@ enum VitalizrClient {
         }
     }
 
-    private void execute(final Deque<String> deque) {
-        doRequestReply(port, createRequest(deque));
-    }
-
     private static String doRequestReply(final int port, final String request) {
         try (final Socket sock = new Socket(InetAddress.getLocalHost(), port);
              final BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
@@ -86,17 +90,5 @@ enum VitalizrClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    <T extends Vital> T getVital(final String id) {
-        switch (this) {
-            case LIST_WEIGHT: return (T) Weight.fromString(getS(id), id);
-            case LIST_BMI: return (T) BodyMassIndex.fromString(getS(id), id);
-            default: throw new UnsupportedOperationException();
-        }
-    }
-
-    private String getS(final String s) {
-        return doRequestReply(this.port, this.createRequest(new ArrayDeque<>(){{add(s);}}));
     }
 }

@@ -1,4 +1,4 @@
-package visionary.software.vitalizr.web;
+package visionary.software.vitalizr.web.weight;
 
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.annotation.MicronautTest;
