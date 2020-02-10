@@ -41,7 +41,7 @@ dependencies {
 
 test.classpath += configurations.developmentOnly
 
-mainClassName = "vitalizr.web.Application"
+mainClassName = "software.visionary.vitalizr.web.Application"
 // use JUnit 5 platform
 test {
     useJUnitPlatform()

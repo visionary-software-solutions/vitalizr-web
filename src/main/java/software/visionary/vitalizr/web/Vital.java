@@ -1,4 +1,4 @@
-package visionary.software.vitalizr.web;
+package software.visionary.vitalizr.web;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,4 @@
-package visionary.software.vitalizr.web;
+package software.visionary.vitalizr.web;
 
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;

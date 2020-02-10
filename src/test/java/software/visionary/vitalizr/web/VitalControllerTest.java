@@ -1,4 +1,4 @@
-package visionary.software.vitalizr.web;
+package software.visionary.vitalizr.web;
 
 import io.micronaut.context.annotation.Replaces;
 import io.micronaut.test.annotation.MicronautTest;

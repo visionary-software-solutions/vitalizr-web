@@ -1,4 +1,4 @@
-package visionary.software.vitalizr.web;
+package software.visionary.vitalizr.web;
 
 import javax.inject.Singleton;
 import java.time.Instant;
