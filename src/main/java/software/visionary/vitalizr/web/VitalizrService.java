@@ -34,7 +34,7 @@ final class VitalizrService implements VitalService {
     }
 
     private List<Vital> toVitals(final String type, final String id, final String response) {
-        final String[] parts = response.split("\u0023");
+        final String[] parts = response.replace("\u0004", "").split("\u0023");
         return Arrays.stream(parts).map(record -> {
             LOG.info("Record is " + record);
             final String[] fields = record.split("\u2049");
