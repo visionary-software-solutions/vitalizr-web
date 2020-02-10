@@ -39,7 +39,7 @@ final class VitalizrService implements VitalService {
             LOG.info("Record is " + record);
             final String[] fields = record.split("\u2049");
             LOG.info("The fields are " + Arrays.toString(fields));
-            return new Vital(type, Instant.ofEpochMilli(Long.parseLong(fields[0])), Double.parseDouble(fields[1]), fields[2], id);
+            return new Vital(type, Instant.ofEpochMilli(Long.parseLong(fields[0])), Double.parseDouble(fields[1]), fields.length == 3 ? fields[2] : "", id);
         }).collect(Collectors.toUnmodifiableList());
     }
 }
