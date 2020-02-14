@@ -30,7 +30,7 @@ class VitalSerializationStrategyTest {
     void handlesBlankCorrectly() {
         final String type = "water";
         final String id = "7ab35698-21f9-463e-8e74-bd3d56109336";
-        final String response = "";
+        final String response = "\u0004";
         final String input = String.format("%s%s%s%s%s", type, VitalSerializationStrategy.TOKEN, id, VitalSerializationStrategy.TOKEN, response);
         final VitalSerializationStrategy toTest = new VitalSerializationStrategy();
         final List<Vital> result = toTest.apply(input);

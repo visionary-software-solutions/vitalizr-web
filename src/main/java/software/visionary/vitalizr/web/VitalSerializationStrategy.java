@@ -2,7 +2,6 @@ package software.visionary.vitalizr.web;
 
 import javax.inject.Singleton;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -17,11 +16,8 @@ final class VitalSerializationStrategy implements Function<String, List<Vital>> 
     @Override
     public List<Vital> apply(final String s) {
         final String[] pieces = s.split(TOKEN);
-        if (pieces.length < 3) {
-            return new ArrayList<>();
-        }
         final String[] parts = pieces[2].replace("\u0004", "").split("\u0023");
-        return Arrays.stream(parts).map(record -> {
+        return Arrays.stream(parts).filter(string -> !string.isBlank()).map(record -> {
             LOG.info("Record is " + record);
             final String[] fields = record.split("\u2049");
             LOG.info("The fields are " + Arrays.toString(fields));
