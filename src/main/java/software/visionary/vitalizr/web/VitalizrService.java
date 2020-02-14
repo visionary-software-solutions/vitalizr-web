@@ -1,45 +1,38 @@
 package software.visionary.vitalizr.web;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 @Singleton
 final class VitalizrService implements VitalService {
+    private final Function<String, List<Vital>> serializationStrategy;
 
-    private Logger LOG = Logger.getLogger(VitalizrService.class.getSimpleName());
+    @Inject
+    VitalizrService(final VitalSerializationStrategy strategy) {
+        this.serializationStrategy = strategy;
+    }
+
 
     @Override
     public List<Vital> getVitalById(final String type, final String id) {
-        return toVitals(type, id, mapRequest(type, id));
+        return serializationStrategy.apply(String.format("%s%s%s%s%s", type, VitalSerializationStrategy.TOKEN, id, VitalSerializationStrategy.TOKEN, mapRequest(type).forId(id)));
 
     }
 
-    private String mapRequest(final String type, final String id) {
+    private VitalizrClient mapRequest(final String type) {
         switch(type) {
-            case "bmi": return VitalizrClient.LIST_BMI.forId(id);
-            case "weight": return VitalizrClient.LIST_WEIGHT.forId(id);
-            case "fat": return VitalizrClient.LIST_FAT.forId(id);
-            case "o2": return VitalizrClient.LIST_O2.forId(id);
-            case "bpm": return VitalizrClient.LIST_PULSE.forId(id);
-            case "temp": return VitalizrClient.LIST_TEMP.forId(id);
-            case "sugar": return VitalizrClient.LIST_SUGAR.forId(id);
-            case "water": return VitalizrClient.LIST_WATER.forId(id);
-            case "bp": return VitalizrClient.LIST_BP.forId(id);
+            case "bmi": return VitalizrClient.LIST_BMI;
+            case "weight": return VitalizrClient.LIST_WEIGHT;
+            case "fat": return VitalizrClient.LIST_FAT;
+            case "o2": return VitalizrClient.LIST_O2;
+            case "bpm": return VitalizrClient.LIST_PULSE;
+            case "temp": return VitalizrClient.LIST_TEMP;
+            case "sugar": return VitalizrClient.LIST_SUGAR;
+            case "water": return VitalizrClient.LIST_WATER;
+            case "bp": return VitalizrClient.LIST_BP;
             default: throw new UnsupportedOperationException("dont know about " + type);
         }
-    }
-
-    private List<Vital> toVitals(final String type, final String id, final String response) {
-        final String[] parts = response.replace("\u0004", "").split("\u0023");
-        return Arrays.stream(parts).map(record -> {
-            LOG.info("Record is " + record);
-            final String[] fields = record.split("\u2049");
-            LOG.info("The fields are " + Arrays.toString(fields));
-            return new Vital(type, Instant.ofEpochMilli(Long.parseLong(fields[0])), Double.parseDouble(fields[1]), fields.length == 3 ? fields[2] : "", id);
-        }).collect(Collectors.toUnmodifiableList());
     }
 }
