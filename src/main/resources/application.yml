@@ -3,3 +3,10 @@ micronaut:
     name: vitalizr-web
     jackson:
       indentOutput: true
+  server:
+    cors:
+      enabled: true
+      configurations:
+        web:
+          allowedOrigins:
+            - http://nicholasvaidyanathan.me
